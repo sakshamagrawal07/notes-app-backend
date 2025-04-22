@@ -3,8 +3,18 @@ const Note = require('../models/note');
 // Create a new note
 exports.createNote = async (req, res) => {
   try {
-    const { title, blocks, color, label, userId } = req.body;
-    const note = new Note({ title, blocks, color, label, userId });
+    const { title, textData, checkboxes, images, color, label, userId } = req.body;
+
+    const note = new Note({
+      title,
+      textData,
+      checkboxes,
+      images,
+      color,
+      label,
+      userId
+    });
+
     await note.save();
     res.status(201).json(note);
   } catch (err) {
@@ -36,12 +46,14 @@ exports.getNoteById = async (req, res) => {
 // Update a note
 exports.updateNote = async (req, res) => {
   try {
-    const { title, blocks, color, label } = req.body;
+    const { title, textData, checkboxes, images, color, label } = req.body;
+
     const note = await Note.findOneAndUpdate(
       { _id: req.params.noteId, userId: req.params.userId },
-      { title, blocks, color, label },
+      { title, textData, checkboxes, images, color, label },
       { new: true }
     );
+
     if (!note) return res.status(404).json({ message: 'Note not found' });
     res.json(note);
   } catch (err) {
