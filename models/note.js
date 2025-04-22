@@ -1,20 +1,13 @@
 const mongoose = require('mongoose');
 
-const blockSchema = new mongoose.Schema({
-  type: {
-    type: String,
-    enum: ['text', 'checkbox', 'image'],
-    required: true
-  },
+const checkboxSchema = new mongoose.Schema({
   content: {
-    type: String // Text, checkbox label, or base64 image string
+    type: String,
+    required: true
   },
   checked: {
-    type: Boolean // Only used if type === 'checkbox'
-  },
-  order: {
-    type: Number,
-    required: true
+    type: Boolean,
+    default: false
   }
 }, { _id: false });
 
@@ -23,7 +16,12 @@ const noteSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
-  blocks: [blockSchema],
+  textData: {
+    type: String,
+    default: ''
+  },
+  checkboxes: [checkboxSchema],
+  images: [String], // Array of base64-encoded image strings
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -31,7 +29,7 @@ const noteSchema = new mongoose.Schema({
   },
   color: {
     type: String,
-    default: '#ffffff' // Default to white, like Google Keep
+    default: '#ffffff'
   },
   label: {
     type: String,
