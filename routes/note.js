@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const noteController = require('../controllers/noteController');
-const { validateNote } = require('../middleware/noteValidators');
+const { validateNote } = require('../middleware/noteValidator');
 const { validationResult } = require('express-validator');
 
 // Middleware to handle validation result
